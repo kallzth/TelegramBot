@@ -1,18 +1,16 @@
-from telegram import Update
+from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ContextTypes
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Sends a welcome message when the /start command is issued."""
-    await update.message.reply_text(
-        "Welcome to your personal AI assistant!\n\n"
-        "Here are the available commands:\n"
-        "/ask <question> - Ask a question to the AI.\n"
-        "/summarize <text> - Summarize a block of text.\n"
-        "/debug <code_snippet> - Get help debugging code.\n"
-        "/commit <diff> - Generate a Git commit message.\n"
-        "/help - Show this help message."
-    )
+async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # These strings must match your MessageHandlers in main.py exactly
+    keyboard = [
+        ['📝 Summarize', '🏗️ Prompt Gen'],
+        ['💾 Git Commit', '🔍 Debug Log']
+    ]
+    reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
-async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Sends a help message when the /help command is issued."""
-    await start(update, context)
+    await update.message.reply_text(
+        "🚀 **Engineer HQ Online.**\nSelect a tool from the menu below:",
+        reply_markup=reply_markup,
+        parse_mode="Markdown"
+    )

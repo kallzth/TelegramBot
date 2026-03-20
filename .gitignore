@@ -1,0 +1,5 @@
+.env
+__pycache__/
+*.ogg
+*.jpg
+knowledge_base.txt
