@@ -1,3 +1,5 @@
+import sys
+import os
 import logging
 import datetime  # Needed for the scheduler
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
