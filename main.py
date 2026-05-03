@@ -102,14 +102,18 @@ async def fallback_handler(update: Update, context):
     if any(text == g for g in greetings):
         await update.message.reply_text(
             "👋 Hey Kaleab! I'm your Engineering Assistant Bot!\n\n"
-            "Here's what I can do for you:\n"
-            "📝 /summarize — Summarize any text\n"
-            "🏗️ /prompt — Generate AI prompts\n"
-            "💾 /git — Write git commit messages\n"
-            "🔍 /debug — Analyze error logs\n"
-            "💡 /save — Save notes to knowledge base\n"
-            "❓ /ask — Ask from your knowledge base\n\n"
-            "Or use the buttons below! 👇"
+                   "Here's what I can do for you:\n"
+                   "📝 /summarize — Summarize any text\n"
+                   "🏗️ /prompt — Generate AI prompts\n"
+                   "💾 /git — Write git commit messages\n"
+                   "🔍 /debug — Analyze error logs\n"
+                   "💡 /tip — Daily engineering tip\n"
+                   "🧠 /explain — Explain any concept or code\n"
+                   "📋 /todo — Manage your task list\n"
+                   "🗓️ /plan — Format your daily goals\n"
+                   "💾 /save — Save notes to knowledge base\n"
+                   "❓ /ask — Ask from your knowledge base\n\n"
+                   "Or use the buttons below! 👇"
         )
     else:
         await update.message.reply_text(
