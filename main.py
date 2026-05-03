@@ -23,6 +23,7 @@ from bot.commands.inline import inline_query_handler
 from bot.commands.tip import tip_handler
 from bot.commands.explain import explain_handler
 from bot.commands.todo import todo_handler
+from bot.commands.plan import plan_handler
 
 
 logging.basicConfig(
