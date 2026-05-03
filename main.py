@@ -148,7 +148,9 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('ask', ask_handler))
     application.add_handler(CommandHandler('clear_kb', clear_kb_handler))
     application.add_handler(CommandHandler('plan', plan_handler))
-
+    application.add_handler(CommandHandler('tip', tip_handler))
+    application.add_handler(CommandHandler('explain', explain_handler))
+    application.add_handler(CommandHandler('todo', todo_handler))
     application.add_handler(MessageHandler(filters.Text("📝 Summarize"), summarize_handler))
     application.add_handler(MessageHandler(filters.Text("🏗️ Prompt Gen"), prompt_handler))
     application.add_handler(MessageHandler(filters.Text("💾 Git Commit"), git_handler))
