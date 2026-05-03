@@ -20,6 +20,10 @@ from bot.commands.eng_tools import git_handler, debug_handler
 from bot.commands.kb_handler import save_handler, ask_handler, clear_kb_handler
 from bot.commands.image_handler import image_message_handler
 from bot.commands.inline import inline_query_handler
+from bot.commands.tip import tip_handler
+from bot.commands.explain import explain_handler
+from bot.commands.todo import todo_handler
+
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',

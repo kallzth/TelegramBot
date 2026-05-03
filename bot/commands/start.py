@@ -6,6 +6,7 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     keyboard = [
         ['📝 Summarize', '🏗️ Prompt Gen'],
         ['💾 Git Commit', '🔍 Debug Log']
+        ['💡 Daily Tip', '📋 Todo List'],
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 

@@ -112,6 +112,25 @@ def clear_kb_file():
         print(f"DEBUG: Failed to clear KB: {e}")
         return False
 
+
+async def get_daily_tip() -> str:
+    try:
+        return await asyncio.to_thread(
+            _generate,
+            "gemini-2.5-flash",
+            (
+                "You are a senior software engineer mentor. "
+                "Give ONE practical, actionable software engineering tip. "
+                "It should be specific, useful for a student, and under 100 words. "
+                "Topics can include: clean code, git, debugging, system design, "
+                "algorithms, career, productivity, or tools."
+            ),
+            "Give me today's software engineering tip."
+        )
+    except Exception as e:
+        return f"❌ AI Error: {str(e)}"
+
+
 async def analyze_image(file_path: str, prompt: str = None) -> str:
     try:
         def _run():
