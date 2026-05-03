@@ -65,6 +65,31 @@ async def handle_daily_plan(context, chat_id, text):
     formatted += "🔥 Let's crush it today, Engineer! 💻"
     await context.bot.send_message(chat_id=chat_id, text=formatted)
 
+
+     # ✅ Add this new handler function
+async def plan_handler(update: Update, context):
+    if not context.args:
+        await update.message.reply_text(
+            "📋 Tell me your goals! Example:\n"
+            "/plan Study data structures\nFix login bug\nRead Clean Code"
+        )
+        return
+    
+    text = " ".join(context.args)
+    goals = text.split(",")  # separate by comma
+    
+    formatted = "🗓 YOUR DAILY BATTLE PLAN\n"
+    formatted += "━━━━━━━━━━━━━━━━━━━━\n\n"
+    emojis = ["🥇", "🥈", "🥉", "🎯", "⭐", "💡", "🔥"]
+    for i, goal in enumerate(goals):
+        emoji = emojis[i] if i < len(emojis) else "✅"
+        formatted += f"{emoji} {goal.strip()}\n\n"
+    formatted += "━━━━━━━━━━━━━━━━━━━━\n"
+    formatted += "⏰ Tip: 45 min focus → 10 min break!\n"
+    formatted += "💪 You've got this, Engineer Kaleab! 🚀"
+    
+    await update.message.reply_text(formatted)
+
 # ✅ NEW: Fallback handler for plain messages like "hi"
 async def fallback_handler(update: Update, context):
     text = update.message.text.lower().strip()
@@ -114,6 +139,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('save', save_handler))
     application.add_handler(CommandHandler('ask', ask_handler))
     application.add_handler(CommandHandler('clear_kb', clear_kb_handler))
+    application.add_handler(CommandHandler('plan', plan_handler))
 
     application.add_handler(MessageHandler(filters.Text("📝 Summarize"), summarize_handler))
     application.add_handler(MessageHandler(filters.Text("🏗️ Prompt Gen"), prompt_handler))
