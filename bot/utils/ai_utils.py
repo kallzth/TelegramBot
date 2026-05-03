@@ -66,7 +66,7 @@ async def quick_explain(concept: str) -> str:
     try:
         return await asyncio.to_thread(
             _generate,
-            "gemini-2.5-flash",  # ← Change from gemini-2.0-flash
+            "gemini-2.5-flash", 
             "You are a patient teacher. Explain this concept or code simply and clearly in 3-4 sentences with a practical example.",
             concept
         )
