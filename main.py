@@ -97,29 +97,53 @@ async def plan_handler(update: Update, context):
 
 # ✅ NEW: Fallback handler for plain messages like "hi"
 async def fallback_handler(update: Update, context):
-    text = update.message.text.lower().strip()
+    text = update.message.text.strip()
+    lower = text.lower()
     greetings = ["hi", "hello", "hey", "hiya", "howdy", "sup", "yo"]
-    
-    if any(text == g for g in greetings):
+
+    if any(lower == g for g in greetings):
         await update.message.reply_text(
-            "👋 Hey Kaleab! I'm your Engineering Assistant Bot!\n\n"
-                   "Here's what I can do for you:\n"
-                   "📝 /summarize — Summarize any text\n"
-                   "🏗️ /prompt — Generate AI prompts\n"
-                   "💾 /git — Write git commit messages\n"
-                   "🔍 /debug — Analyze error logs\n"
-                   "💡 /tip — Daily engineering tip\n"
-                   "🧠 /explain — Explain any concept or code\n"
-                   "📋 /todo — Manage your task list\n"
-                   "🗓️ /plan — Format your daily goals\n"
-                   "💾 /save — Save notes to knowledge base\n"
-                   "❓ /ask — Ask from your knowledge base\n\n"
-                   "Or use the buttons below! 👇"
+            "👋 Hey! I'm your Engineering Assistant Bot!\n\n"
+            "Here's what I can do for you:\n"
+            "📝 /summarize — Summarize any text\n"
+            "🏗️ /prompt — Generate AI prompts\n"
+            "💾 /git — Write git commit messages\n"
+            "🔍 /debug — Analyze error logs\n"
+            "💡 /tip — Daily engineering tip\n"
+            "🧠 /explain — Explain any concept or code\n"
+            "📋 /todo — Manage your task list\n"
+            "🗓️ /plan — Format your daily goals\n"
+            "💾 /save — Save notes to knowledge base\n"
+            "❓ /ask — Ask from your knowledge base\n\n"
+            "Or use the buttons below! 👇"
         )
+
+    # ✅ Detect daily plan — multi-line or reply to morning reminder
+    elif "\n" in text or update.message.reply_to_message:
+        goals = [g.strip() for g in text.split("\n") if g.strip()]
+        
+        if len(goals) >= 2:  # Only format if 2+ lines
+            emojis = ["🥇", "🥈", "🥉", "🎯", "⭐", "💡", "🔥", "✅"]
+            formatted = "🗓 YOUR DAILY BATTLE PLAN\n"
+            formatted += "━━━━━━━━━━━━━━━━━━━━\n\n"
+            for i, goal in enumerate(goals):
+                emoji = emojis[i] if i < len(emojis) else "✅"
+                formatted += f"{emoji} {goal}\n\n"
+            formatted += "━━━━━━━━━━━━━━━━━━━━\n"
+            formatted += "⏰ 45 min focus → 10 min break!\n"
+            formatted += "💪 Let's crush it today! 🚀"
+            await update.message.reply_text(formatted)
+        else:
+            await update.message.reply_text(
+                "🤔 I didn't understand that.\n"
+                "Try /start to see all available commands!\n\n"
+                "💡 Tip: To format your daily plan, type each goal on a new line!"
+            )
     else:
         await update.message.reply_text(
             "🤔 I didn't understand that.\n"
-            "Try /start to see all available commands!"
+            "Try /start to see all available commands!\n\n"
+            "💡 Tip: To format your daily plan, type each goal on a new line!"
         )
 
 from telegram import Update
