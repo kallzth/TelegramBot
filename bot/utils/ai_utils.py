@@ -1,5 +1,6 @@
 import os
 import asyncio
+import time
 from google import genai
 from bot.core.config import GEMINI_API_KEY
 
@@ -10,13 +11,23 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 KB_FILE = os.path.join(BASE_DIR, "knowledge_base.txt")
 
 # ✅ Helper to run blocking Gemini calls without freezing the bot
-def _generate(model, system_instruction, contents):
-    response = client.models.generate_content(
-        model=model,
-        config={"system_instruction": system_instruction},
-        contents=contents,
-    )
-    return response.text
+def _generate(model, system_instruction, contents, retries=3):
+    for attempt in range(retries):
+        try:
+            response = client.models.generate_content(
+                model=model,
+                config={"system_instruction": system_instruction},
+                contents=contents,
+            )
+            return response.text
+        except Exception as e:
+            error_str = str(e)
+            # Retry on 503 (server busy) or 429 (rate limit)
+            if ("503" in error_str or "429" in error_str) and attempt < retries - 1:
+                wait_time = 2 ** attempt  # 1s, 2s, 4s
+                time.sleep(wait_time)
+                continue
+            raise  # Re-raise if not retryable or all retries exhausted
 
 async def get_summary(text: str) -> str:
     try:
