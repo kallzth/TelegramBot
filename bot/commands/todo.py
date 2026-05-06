@@ -5,38 +5,49 @@ from telegram.ext import ContextTypes
 
 TODO_FILE = "bot/todos.json"
 
-def load_todos():
+def load_all_todos():
     if not os.path.exists(TODO_FILE):
-        return []
+        return {}
     try:
         with open(TODO_FILE, "r") as f:
             return json.load(f)
     except:
-        return []
+        return {}
 
-def save_todos(todos):
+def save_all_todos(all_todos):
     with open(TODO_FILE, "w") as f:
-        json.dump(todos, f)
+        json.dump(all_todos, f)
+
+def get_user_todos(user_id: str):
+    all_todos = load_all_todos()
+    return all_todos.get(user_id, [])
+
+def save_user_todos(user_id: str, todos: list):
+    all_todos = load_all_todos()
+    all_todos[user_id] = todos
+    save_all_todos(all_todos)
 
 async def todo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    todos = load_todos()
+    user_id = str(update.message.from_user.id)
+    user_name = update.message.from_user.first_name
+    todos = get_user_todos(user_id)
 
     if not context.args:
-        # Show current todo list
         if not todos:
             await update.message.reply_text(
-                "📋 Your todo list is empty!\n\n"
+                f"📋 Hey {user_name}, your todo list is empty!\n\n"
                 "Add tasks with: /todo add Buy groceries\n"
-                "Done a task with: /todo done 1\n"
+                "Mark done with: /todo done 1\n"
+                "Remove with: /todo remove 1\n"
                 "Clear all with: /todo clear"
             )
             return
 
-        msg = "📋 YOUR TODO LIST\n━━━━━━━━━━━━━━━━━━\n\n"
+        msg = f"📋 {user_name.upper()}'S TODO LIST\n━━━━━━━━━━━━━━━━━━\n\n"
         for i, item in enumerate(todos, 1):
             status = "✅" if item["done"] else "⬜"
             msg += f"{status} {i}. {item['task']}\n"
-        
+
         pending = sum(1 for t in todos if not t["done"])
         done = sum(1 for t in todos if t["done"])
         msg += f"\n━━━━━━━━━━━━━━━━━━\n"
@@ -52,7 +63,7 @@ async def todo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
         task = " ".join(context.args[1:])
         todos.append({"task": task, "done": False})
-        save_todos(todos)
+        save_user_todos(user_id, todos)
         await update.message.reply_text(
             f"✅ Added to your list:\n⬜ {task}\n\n"
             f"You now have {len(todos)} task(s). Let's get it done! 💪"
@@ -67,10 +78,9 @@ async def todo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Invalid task number!")
             return
         todos[idx]["done"] = True
-        save_todos(todos)
+        save_user_todos(user_id, todos)
         await update.message.reply_text(
-            f"🎉 Marked as done:\n✅ {todos[idx]['task']}\n\n"
-            f"Great work, Engineer Kaleab! 🔥"
+            f"🎉 Marked as done:\n✅ {todos[idx]['task']}\n\nGreat work, {user_name}! 🔥"
         )
 
     elif action == "remove":
@@ -82,12 +92,12 @@ async def todo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await update.message.reply_text("❌ Invalid task number!")
             return
         removed = todos.pop(idx)
-        save_todos(todos)
+        save_user_todos(user_id, todos)
         await update.message.reply_text(f"🗑 Removed: {removed['task']}")
 
     elif action == "clear":
-        save_todos([])
-        await update.message.reply_text("🧹 Todo list cleared! Fresh start! 🚀")
+        save_user_todos(user_id, [])
+        await update.message.reply_text(f"🧹 Todo list cleared, {user_name}! Fresh start! 🚀")
 
     else:
         await update.message.reply_text(
