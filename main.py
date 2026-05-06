@@ -38,8 +38,7 @@ def home(): return "Bot is awake!"
 
 def run(): app.run(host='0.0.0.0', port=8080)
 
-# ✅ FIX: Use Africa/Addis_Ababa timezone (UTC+3)
-ADDIS_TZ = pytz.timezone("Africa/Addis_Ababa")
+
 
 
 async def fallback_handler(update: Update, context):
