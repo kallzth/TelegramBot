@@ -6,8 +6,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv()
 
 import logging
-import datetime
-import pytz
+
 from flask import Flask
 from threading import Thread
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, InlineQueryHandler
@@ -190,12 +189,7 @@ if __name__ == '__main__':
 
     job_queue = application.job_queue
 
-    # ✅ FIX: 9:00 AM Addis Ababa time = 06:00 UTC
-    job_queue.run_daily(
-        morning_reminder,
-        time=datetime.time(hour=6, minute=0, tzinfo=pytz.utc)
-    )
-
+   
     # Register all handlers
     application.add_handler(CommandHandler('start', start_handler))
     application.add_handler(CommandHandler('summarize', summarize_handler))
