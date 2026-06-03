@@ -6,8 +6,7 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 load_dotenv()
 
 import logging
-import datetime
-import pytz
+
 from flask import Flask
 from threading import Thread
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, InlineQueryHandler
@@ -39,23 +38,56 @@ def home(): return "Bot is awake!"
 
 def run(): app.run(host='0.0.0.0', port=8080)
 
-# ✅ FIX: Use Africa/Addis_Ababa timezone (UTC+3)
-ADDIS_TZ = pytz.timezone("Africa/Addis_Ababa")
 
-# Morning reminder
-async def morning_reminder(context):
-    await context.bot.send_message(
-        chat_id="536205799",
-        text=(
-            "🌅 Good Morning, Engineer Kaleab!\n\n"
-            "Here's your daily checklist:\n"
-            "✅ Check your GitHub PRs\n"
-            "📚 Study at least one new concept\n"
-            "🎯 Set ONE main goal for today\n"
-            "💪 You got this!\n\n"
-            "Type your daily goals and I'll format them for you! 🚀"
+
+
+async def fallback_handler(update: Update, context):
+    text = update.message.text.strip()
+    lower = text.lower()
+    user_name = update.message.from_user.first_name
+    greetings = ["hi", "hello", "hey", "hiya", "howdy", "sup", "yo"]
+
+    if any(lower == g for g in greetings):
+        await update.message.reply_text(
+            f"👋 Hey {user_name}! I'm your Engineering Assistant Bot!\n\n"
+            "Here's what I can do for you:\n"
+            "📝 /summarize — Summarize any text\n"
+            "🏗️ /prompt — Generate AI prompts\n"
+            "💾 /git — Write git commit messages\n"
+            "🔍 /debug — Analyze error logs\n"
+            "💡 /tip — Daily engineering tip\n"
+            "🧠 /explain — Explain any concept or code\n"
+            "📋 /todo — Manage your task list\n"
+            "🗓️ /plan — Format your daily goals\n"
+            "💾 /save — Save notes to knowledge base\n"
+            "❓ /ask — Ask from your knowledge base\n\n"
+            "Or use the buttons below! 👇"
         )
-    )
+
+    elif "\n" in text or update.message.reply_to_message:
+        goals = [g.strip() for g in text.split("\n") if g.strip()]
+        if len(goals) >= 2:
+            emojis = ["🥇", "🥈", "🥉", "🎯", "⭐", "💡", "🔥", "✅"]
+            formatted = f"🗓 {user_name.upper()}'S DAILY BATTLE PLAN\n"
+            formatted += "━━━━━━━━━━━━━━━━━━━━\n\n"
+            for i, goal in enumerate(goals):
+                emoji = emojis[i] if i < len(emojis) else "✅"
+                formatted += f"{emoji} {goal}\n\n"
+            formatted += "━━━━━━━━━━━━━━━━━━━━\n"
+            formatted += "⏰ 45 min focus → 10 min break!\n"
+            formatted += f"💪 Let's crush it today, {user_name}! 🚀"
+            await update.message.reply_text(formatted)
+        else:
+            await update.message.reply_text(
+                "🤔 I didn't understand that.\n"
+                "Try /start to see all available commands!"
+            )
+    else:
+        await update.message.reply_text(
+            "🤔 I didn't understand that.\n"
+            "Try /start to see all available commands!"
+        )
+
 
 # ✅ NEW: Handle daily plan input and format it nicely
 async def handle_daily_plan(context, chat_id, text):
@@ -156,12 +188,7 @@ if __name__ == '__main__':
 
     job_queue = application.job_queue
 
-    # ✅ FIX: 9:00 AM Addis Ababa time = 06:00 UTC
-    job_queue.run_daily(
-        morning_reminder,
-        time=datetime.time(hour=6, minute=0, tzinfo=pytz.utc)
-    )
-
+   
     # Register all handlers
     application.add_handler(CommandHandler('start', start_handler))
     application.add_handler(CommandHandler('summarize', summarize_handler))
