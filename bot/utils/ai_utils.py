@@ -146,9 +146,14 @@ async def analyze_image(file_path: str, prompt: str = None) -> str:
     try:
         def _run():
             sample_file = client.files.upload(file=file_path)
-            p = prompt or "Analyze this image. If it's an error, suggest a fix. If it's code, explain what it does."
+            p = prompt or (
+                "Analyze this image carefully. "
+                "If it contains exam or homework questions, answer each question clearly and step by step. "
+                "If it's code, explain what it does and suggest improvements. "
+                "If it's an error or screenshot, diagnose the problem and suggest fixes."
+            )
             response = client.models.generate_content(
-                model="gemini-1.5-flash",
+                model="gemini-2.5-flash",
                 contents=[p, sample_file]
             )
             return response.text
