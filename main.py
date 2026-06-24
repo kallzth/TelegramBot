@@ -132,6 +132,7 @@ async def fallback_handler(update: Update, context):
     text = update.message.text.strip()
     lower = text.lower()
     greetings = ["hi", "hello", "hey", "hiya", "howdy", "sup", "yo"]
+    time_greetings = ["good morning", "morning", "gm", "good afternoon", "good evening", "good night"]
 
     if any(lower == g for g in greetings):
         await update.message.reply_text(
@@ -149,6 +150,19 @@ async def fallback_handler(update: Update, context):
             "❓ /ask — Ask from your knowledge base\n\n"
             "Or use the buttons below! 👇"
         )
+
+
+
+    elif any(lower.startswith(g) for g in time_greetings):
+        hour = update.message.date.hour  # UTC hour
+        if hour < 12:
+            reply = f"☀️ Good morning, {user_name}! Ready to build something great today? 💻🚀"
+        elif hour < 17:
+            reply = f"🌤️ Good afternoon, {user_name}! Keep grinding! 💪"
+        else:
+            reply = f"🌙 Good evening, {user_name}! Hope you crushed it today! 🔥"
+        await update.message.reply_text(reply)
+
 
     # ✅ Detect daily plan — multi-line or reply to morning reminder
     elif "\n" in text or update.message.reply_to_message:
