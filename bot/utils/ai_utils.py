@@ -148,9 +148,17 @@ async def analyze_image(file_path: str, prompt: str = None) -> str:
             sample_file = client.files.upload(file=file_path)
             p = prompt or (
                 "Analyze this image carefully. "
-                "If it contains exam or homework questions, answer each question clearly and step by step. "
+                "If it contains exam or homework questions, answer each question step by step. "
                 "If it's code, explain what it does and suggest improvements. "
-                "If it's an error or screenshot, diagnose the problem and suggest fixes."
+                "If it's an error or screenshot, diagnose the problem and suggest fixes.\n\n"
+                "FORMATTING RULES (very important):\n"
+                "- Do NOT use LaTeX or dollar signs ($) for math\n"
+                "- Write math in plain text: use ^ for powers, sqrt() for roots, / for fractions\n"
+                "- Use unicode symbols directly: ∂, π, α, β, θ, →, ×, ÷, ≤, ≥, ∞, ∈\n"
+                "- Use → instead of \\Rightarrow\n"
+                "- Use CAPS for section headers instead of **bold**\n"
+                "- Separate each part clearly with a blank line\n"
+                "- Be clear and student-friendly"
             )
             response = client.models.generate_content(
                 model="gemini-2.5-flash",
