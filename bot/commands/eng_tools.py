@@ -15,8 +15,17 @@ async def git_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         suggestion = await suggest_commit(raw_input)
+        response = (
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            "💾 GIT COMMIT GENERATOR\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            f"{suggestion}\n\n"
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            "📋 Copy the COPY-READY section above!"
+        )
+
         # ✅ No parse_mode — avoids Markdown crash
-        await status.edit_text(f"💾 Suggested Commit:\n\n{suggestion}")
+        await status.edit_text(response)
     except Exception as e:
         await status.edit_text(f"❌ Error: {str(e)}")
 

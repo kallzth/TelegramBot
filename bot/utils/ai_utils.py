@@ -56,7 +56,21 @@ async def suggest_commit(description: str) -> str:
         return await asyncio.to_thread(
             _generate,
             "gemini-2.5-flash",
-            "Convert this to a professional Conventional Commit message with a short title and bullet points.",
+            (
+                "You are a Git expert. Convert the user's description into a Conventional Commit message.\n"
+                "Reply in EXACTLY this format with no extra text, no backticks, no markdown:\n\n"
+                "TYPE: short title (max 50 chars)\n\n"
+                "BODY:\n"
+                "- change 1\n"
+                "- change 2\n"
+                "- change 3\n\n"
+                "COPY-READY:\n"
+                "type: short title\n\n"
+                "- change 1\n"
+                "- change 2\n"
+                "- change 3\n\n"
+                "Types: feat, fix, docs, style, refactor, test, chore"
+            ),
             description
         )
     except Exception as e:
