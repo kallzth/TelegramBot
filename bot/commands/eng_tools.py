@@ -15,17 +15,11 @@ async def git_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     try:
         suggestion = await suggest_commit(raw_input)
-        response = (
-            "━━━━━━━━━━━━━━━━━━━━\n"
-            "💾 GIT COMMIT GENERATOR\n"
-            "━━━━━━━━━━━━━━━━━━━━\n\n"
-            f"{suggestion}\n\n"
-            "━━━━━━━━━━━━━━━━━━━━\n"
-            "📋 Copy the COPY-READY section above!"
+        await status.edit_text(
+            f"💾 *Suggested Commit:*\n\n```\n{suggestion}\n```\n\n"
+            "Copy the commit message above and paste it in your terminal!",
+            parse_mode="Markdown"
         )
-
-        # ✅ No parse_mode — avoids Markdown crash
-        await status.edit_text(response)
     except Exception as e:
         await status.edit_text(f"❌ Error: {str(e)}")
 
@@ -44,6 +38,9 @@ async def debug_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     try:
         analysis = await analyze_error(log_text)
         # ✅ No parse_mode — avoids Markdown crash
-        await status.edit_text(f"🛠 Debug Report:\n\n{analysis}")
+        await status.edit_text(
+            f"🔍 *Error Analysis:*\n\n```\n{analysis}\n```",
+            parse_mode="Markdown"
+        )
     except Exception as e:
         await status.edit_text(f"❌ Error: {str(e)}")

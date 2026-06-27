@@ -57,19 +57,14 @@ async def suggest_commit(description: str) -> str:
             _generate,
             "gemini-2.5-flash",
             (
-                "You are a Git expert. Convert the user's description into a Conventional Commit message.\n"
-                "Reply in EXACTLY this format with no extra text, no backticks, no markdown:\n\n"
-                "TYPE: short title (max 50 chars)\n\n"
-                "BODY:\n"
+                "You are a Git expert. Convert the description into a Conventional Commit message.\n"
+                "Reply in EXACTLY this plain text format, no backticks, no markdown:\n\n"
+                "feat: short title here\n\n"
                 "- change 1\n"
                 "- change 2\n"
                 "- change 3\n\n"
-                "COPY-READY:\n"
-                "type: short title\n\n"
-                "- change 1\n"
-                "- change 2\n"
-                "- change 3\n\n"
-                "Types: feat, fix, docs, style, refactor, test, chore"
+                "Types to use: feat, fix, docs, style, refactor, test, chore\n"
+                "Keep the title under 50 characters."
             ),
             description
         )
