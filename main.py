@@ -226,6 +226,7 @@ if __name__ == '__main__':
     application.add_handler(MessageHandler(filters.Text("💡 Daily Tip"), tip_handler))
     application.add_handler(MessageHandler(filters.Text("📋 Todo List"), todo_handler))
     application.add_handler(MessageHandler(filters.Text("🗓️ Plan Your Day"), plan_handler))
+    application.add_handler(MessageHandler(filters.Text("📄 README Gen"), readme_handler))
     application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
 
 
