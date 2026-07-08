@@ -50,6 +50,41 @@ async def generate_prompt(raw_idea: str) -> str:
         )
     except Exception as e:
         return f"❌ AI Error: {str(e)}"
+    
+
+async def generate_readme(description: str) -> str:
+    try:
+        return await asyncio.to_thread(
+            _generate,
+            "gemini-2.5-flash",
+            (
+                "You are a senior software engineer and technical writer. "
+                "Generate a clean, professional README.md for the project described.\n\n"
+                "Include these sections in order:\n"
+                "# Project Name\n"
+                "Short catchy description\n\n"
+                "## 🚀 Features\n"
+                "- bullet list of key features\n\n"
+                "## 🛠️ Tech Stack\n"
+                "- bullet list of technologies\n\n"
+                "## ⚙️ Installation\n"
+                "Step by step setup instructions with code blocks\n\n"
+                "## 📖 Usage\n"
+                "How to use the project with examples\n\n"
+                "## 🤝 Contributing\n"
+                "Brief contributing guide\n\n"
+                "## 📄 License\n"
+                "MIT License\n\n"
+                "IMPORTANT RULES:\n"
+                "- Use real markdown formatting\n"
+                "- Be specific based on the description given\n"
+                "- Keep it under 3500 characters\n"
+                "- Make it look professional and impressive"
+            ),
+            description
+        )
+    except Exception as e:
+        return f"❌ AI Error: {str(e)}"
 
 async def suggest_commit(description: str) -> str:
     try:
