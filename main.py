@@ -12,6 +12,7 @@ from threading import Thread
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, InlineQueryHandler
 
 from bot.core.config import TELEGRAM_BOT_TOKEN
+from bot.commands.readme import readme_handler
 from bot.commands.start import start_handler
 from bot.commands.summarize import summarize_handler
 from bot.commands.prompt import prompt_handler
@@ -217,6 +218,7 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('tip', tip_handler))
     application.add_handler(CommandHandler('explain', explain_handler))
     application.add_handler(CommandHandler('todo', todo_handler))
+    application.add_handler(CommandHandler('readme', readme_handler))
     application.add_handler(MessageHandler(filters.Text("📝 Summarize"), summarize_handler))
     application.add_handler(MessageHandler(filters.Text("🏗️ Prompt Gen"), prompt_handler))
     application.add_handler(MessageHandler(filters.Text("💾 Git Commit"), git_handler))
