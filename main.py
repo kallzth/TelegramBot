@@ -10,6 +10,9 @@ import logging
 from flask import Flask
 from threading import Thread
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, InlineQueryHandler
+from bot.commands.interview import interview_handler, interview_callback_handler
+from telegram.ext import CallbackQueryHandler
+
 
 from bot.core.config import TELEGRAM_BOT_TOKEN
 from bot.commands.readme import readme_handler
@@ -24,6 +27,7 @@ from bot.commands.tip import tip_handler
 from bot.commands.explain import explain_handler
 from bot.commands.todo import todo_handler
 from bot.commands.plan import plan_handler
+
 
 
 logging.basicConfig(
@@ -219,6 +223,9 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('explain', explain_handler))
     application.add_handler(CommandHandler('todo', todo_handler))
     application.add_handler(CommandHandler('readme', readme_handler))
+    application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
+    application.add_handler(CommandHandler('interview', interview_handler))
+    application.add_handler(CallbackQueryHandler(interview_callback_handler, pattern="^interview_"))
     application.add_handler(MessageHandler(filters.Text("📝 Summarize"), summarize_handler))
     application.add_handler(MessageHandler(filters.Text("🏗️ Prompt Gen"), prompt_handler))
     application.add_handler(MessageHandler(filters.Text("💾 Git Commit"), git_handler))
@@ -227,7 +234,8 @@ if __name__ == '__main__':
     application.add_handler(MessageHandler(filters.Text("📋 Todo List"), todo_handler))
     application.add_handler(MessageHandler(filters.Text("🗓️ Plan Your Day"), plan_handler))
     application.add_handler(MessageHandler(filters.Text("📄 README Gen"), readme_handler))
-    application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
+    application.add_handler(MessageHandler(filters.Text("🎤 Interview"), interview_handler))
+    
 
 
     # ✅ NEW: Fallback for plain messages (hi, hello, unknown text)
