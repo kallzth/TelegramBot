@@ -241,5 +241,26 @@ if __name__ == '__main__':
     # ✅ NEW: Fallback for plain messages (hi, hello, unknown text)
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
+    async def set_commands(app):
+     await app.bot.set_my_commands([
+        ("start",     "🏠 Start the bot"),
+        ("summarize", "📝 Summarize any text"),
+        ("prompt",    "🏗️ Generate AI prompts"),
+        ("git",       "💾 Generate git commit message"),
+        ("debug",     "🔍 Analyze error logs"),
+        ("explain",   "🧠 Explain any concept or code"),
+        ("tip",       "💡 Get a daily engineering tip"),
+        ("todo",      "📋 Manage your task list"),
+        ("plan",      "🗓️ Format your daily goals"),
+        ("readme",    "📄 Generate a README.md file"),
+        ("interview", "🎤 Get a mock interview question"),
+        ("save",      "💾 Save notes to knowledge base"),
+        ("ask",       "❓ Ask from your knowledge base"),
+        ("clear_kb",  "🗑️ Clear your knowledge base"),
+    ])
+
+    application.post_init = set_commands
+
+  
     print("🤖 Bot is running with all fixes applied!")
     application.run_polling()
