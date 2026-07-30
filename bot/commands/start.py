@@ -9,6 +9,7 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         ['💾 Git Commit', '🔍 Debug Log'],
         ['💡 Daily Tip', '📋 Todo List'],
         ['📄 README Gen', '🗓️ Plan Your Day'],
+        ['🎤 Interview'],
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 
