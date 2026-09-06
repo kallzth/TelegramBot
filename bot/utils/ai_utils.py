@@ -40,6 +40,37 @@ async def get_summary(text: str) -> str:
     except Exception as e:
         return f"❌ AI Error: {str(e)}"
 
+async def generate_interview_question(category: str = "random") -> str:
+    try:
+        if category == "technical":
+            focus = "Generate a technical software engineering interview question. It can be about DSA, system design, OOP, databases, or problem solving."
+        elif category == "behavioral":
+            focus = "Generate a behavioral interview question using the STAR method context (Situation, Task, Action, Result)."
+        else:
+            focus = "Generate either a technical or behavioral software engineering interview question randomly."
+
+        return await asyncio.to_thread(
+            _generate,
+            "gemini-2.5-flash",
+            (
+                "You are a senior software engineering interviewer at a top tech company. "
+                f"{focus}\n\n"
+                "Reply in EXACTLY this format, no markdown, no backticks:\n\n"
+                "TYPE: Technical or Behavioral\n\n"
+                "QUESTION:\n"
+                "The full interview question here\n\n"
+                "WHAT THEY LOOK FOR:\n"
+                "- key point 1\n"
+                "- key point 2\n"
+                "- key point 3\n\n"
+                "HINT:\n"
+                "A subtle hint to help the candidate think in the right direction"
+            ),
+            focus
+        )
+    except Exception as e:
+        return f"❌ AI Error: {str(e)}"
+
 async def generate_prompt(raw_idea: str) -> str:
     try:
         return await asyncio.to_thread(
