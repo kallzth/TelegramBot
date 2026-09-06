@@ -244,8 +244,6 @@ async def analyze_image(file_path: str, prompt: str = None) -> str:
     except Exception as e:
         return f"❌ Vision Error: {str(e)}"
 
-#  
-  
 BLUEPRINT = """
 You are generating questions for the Ethiopian Software Engineering National Exit Exam.
 The exam has these courses and exact question weights:
