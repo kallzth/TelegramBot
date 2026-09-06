@@ -160,6 +160,7 @@ async def fallback_handler(update: Update, context):
 
 
     elif any(lower.startswith(g) for g in time_greetings):
+        user_name = update.message.from_user.first_name  # ← ADD THIS
         hour = update.message.date.hour  # UTC hour
         if hour < 12:
             reply = f"☀️ Good morning, {user_name}! Ready to build something great today? 💻🚀"
