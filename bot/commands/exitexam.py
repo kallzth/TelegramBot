@@ -90,20 +90,27 @@ async def send_exam_question(update_or_query, context, course="random", is_callb
         f"💡 Explanation:\n{parsed['explanation']}"
     )
 
-    # Send as native Telegram poll
+        # Send as native Telegram poll
     chat_id = (
         update_or_query.message.chat_id
         if not is_callback
         else update_or_query.message.chat_id
     )
 
+    # Telegram poll question max is 300 chars — truncate if needed
+    poll_question = f"📚 {parsed['course']} | {parsed['topic']}\n\n{parsed['question']}"
+    if len(poll_question) > 300:
+        header = f"📚 {parsed['course']} | {parsed['topic']}\n\n"
+        max_q_len = 300 - len(header) - 3
+        poll_question = f"{header}{parsed['question'][:max_q_len]}..."
+
     await context.bot.send_poll(
         chat_id=chat_id,
-        question=f"📚 {parsed['course']} | {parsed['topic']}\n\n{parsed['question']}",
+        question=poll_question,
         options=parsed["options"],
         type="quiz",
         correct_option_id=correct_index,
-        explanation=parsed["explanation"][:200],  # Telegram limit
+        explanation=parsed["explanation"][:200],
         is_anonymous=False,
         reply_markup=reply_markup
     )
