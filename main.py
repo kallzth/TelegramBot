@@ -9,7 +9,7 @@ import logging
 
 from flask import Flask
 from threading import Thread
-from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters, InlineQueryHandler
+from telegram.ext import ApplicationBuilder, CallbackQueryHandler, CommandHandler, MessageHandler, filters, InlineQueryHandler
 
 from bot.core.config import TELEGRAM_BOT_TOKEN
 from bot.commands.readme import readme_handler
@@ -24,6 +24,7 @@ from bot.commands.tip import tip_handler
 from bot.commands.explain import explain_handler
 from bot.commands.todo import todo_handler
 from bot.commands.plan import plan_handler
+from bot.commands.exitexam import exitexam_handler, exitexam_callback_handler
 
 
 logging.basicConfig(
@@ -227,11 +228,36 @@ if __name__ == '__main__':
     application.add_handler(MessageHandler(filters.Text("📋 Todo List"), todo_handler))
     application.add_handler(MessageHandler(filters.Text("🗓️ Plan Your Day"), plan_handler))
     application.add_handler(MessageHandler(filters.Text("📄 README Gen"), readme_handler))
+    application.add_handler(MessageHandler(filters.Text("🎓 Exit Exam"), exitexam_handler))
+    application.add_handler(CommandHandler('exitexam', exitexam_handler))
+    application.add_handler(CallbackQueryHandler(exitexam_callback_handler, pattern="^exitexam_"))
+    application.add_handler(CallbackQueryHandler(exitexam_callback_handler, pattern="^explain_"))
     application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
 
 
     # ✅ NEW: Fallback for plain messages (hi, hello, unknown text)
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, fallback_handler))
 
-    print("🤖 Bot is running with all fixes applied!")
-    application.run_polling()
+async def set_commands(app):
+    await app.bot.set_my_commands([
+        ("start",     "🏠 Start the bot"),
+        ("summarize", "📝 Summarize any text"),
+        ("prompt",    "🏗️ Generate AI prompts"),
+        ("git",       "💾 Generate git commit message"),
+        ("debug",     "🔍 Analyze error logs"),
+        ("explain",   "🧠 Explain any concept or code"),
+        ("tip",       "💡 Get a daily engineering tip"),
+        ("todo",      "📋 Manage your task list"),
+        ("plan",      "🗓️ Format your daily goals"),
+        ("readme",    "📄 Generate a README.md file"),
+        ("interview", "🎤 Get a mock interview question"),
+        ("exitexam",  "🎓 Practice exit exam questions"),
+        ("save",      "💾 Save notes to knowledge base"),
+        ("ask",       "❓ Ask from your knowledge base"),
+        ("clear_kb",  "🗑️ Clear your knowledge base"),
+    ])
+
+application.post_init = set_commands
+
+print("🤖 Bot is running with all fixes applied!")
+application.run_polling()

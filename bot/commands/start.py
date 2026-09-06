@@ -5,10 +5,13 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.message.from_user.first_name
 
     keyboard = [
-        ['📝 Summarize', '🏗️ Prompt Gen'],
-        ['💾 Git Commit', '🔍 Debug Log'],
-        ['💡 Daily Tip', '📋 Todo List'],
-        ['📄 README Gen', '🗓️ Plan Your Day'],
+         [
+    ['📝 Summarize', '🏗️ Prompt Gen'],
+    ['💾 Git Commit', '🔍 Debug Log'],
+    ['💡 Daily Tip', '📋 Todo List'],
+    ['📄 README Gen', '🎤 Interview'],
+    ['🎓 Exit Exam', '🗓️ Plan Your Day'],
+]
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
 

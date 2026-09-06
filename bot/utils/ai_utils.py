@@ -212,3 +212,82 @@ async def analyze_image(file_path: str, prompt: str = None) -> str:
         return await asyncio.to_thread(_run)
     except Exception as e:
         return f"❌ Vision Error: {str(e)}"
+
+    BLUEPRINT = """
+You are generating questions for the Ethiopian Software Engineering National Exit Exam.
+The exam has these courses and exact question weights:
+
+THEME 1 - Problem Analysis and Programming (60%):
+- Fundamentals of Programming (14 questions): basic concepts, programming constructs, problem-solving, modular programming, file handling, debugging
+- Data Structures & Algorithms (8 questions): linked lists, queues, stacks, trees, graphs, sorting, searching, Big-O complexity
+- Object Oriented Programming (6 questions): inheritance, encapsulation, polymorphism, exception handling, GUI, OOP design
+- Internet/Web Programming (10 questions): HTML, CSS, JavaScript, AJAX, server-side scripting, web protocols, databases
+- Mobile App Development (6 questions): Android basics, APK, activities, intents, mobile security, ethical/legal principles
+- Fundamentals of Databases (7 questions): SQL, ER diagrams, normalization, DBMS, data security, foreign keys
+- Operating Systems (8 questions): process management, deadlock, memory management, scheduling algorithms, file systems, security
+
+THEME 2 - Software Req, Design & Architecture (15%):
+- Fundamentals of Software Engineering (8 questions): SDLC models, software process, requirements, design principles, ethics
+- Software Project Management (7 questions): WBS, scheduling, cost estimation, risk management, quality assurance
+
+THEME 3 - Networking & Security (13%):
+- Fundamentals of Networking (8 questions): OSI layers, TCP/IP, network design, protocols
+- Software & Information Security (6 questions): malware, cryptography, authentication, firewalls, intrusion detection
+
+THEME 4 - Emerging Technologies (11%):
+- Fundamentals of AI (6 questions): search algorithms, A*, BFS, DFS, Bayes nets, knowledge representation
+- Machine Learning (6 questions): supervised/unsupervised learning, model development, ML algorithms, data analytics
+
+QUESTION STYLE (match exactly):
+- 4 options: a, b, c, d
+- Mix of: conceptual definitions, scenario-based, code-output, identify-the-correct/incorrect
+- Difficulty: undergraduate exit exam level
+- Some questions use scenarios like the dormitory database example
+- Some questions show code snippets and ask for output
+"""
+
+async def generate_exit_exam_question(course: str = "random") -> str:
+    try:
+        course_map = {
+            "programming": "Fundamentals of Programming",
+            "dsa": "Data Structures and Algorithms",
+            "oop": "Object Oriented Programming",
+            "web": "Internet/Web Programming",
+            "mobile": "Mobile Application Development",
+            "database": "Fundamentals of Databases",
+            "db": "Fundamentals of Databases",
+            "os": "Operating Systems",
+            "se": "Fundamentals of Software Engineering",
+            "spm": "Software Project Management",
+            "networking": "Fundamentals of Networking",
+            "security": "Software and Information Security",
+            "ai": "Fundamentals of AI",
+            "ml": "Machine Learning",
+        }
+
+        if course == "random":
+            course_instruction = "Pick any course randomly, weighted by their question count in the exam."
+        else:
+            course_name = course_map.get(course.lower(), course)
+            course_instruction = f"Generate a question from: {course_name}"
+
+        return await asyncio.to_thread(
+            _generate,
+            "gemini-2.5-flash",
+            BLUEPRINT,
+            f"{course_instruction}\n\n"
+            "Reply in EXACTLY this format, no extra text:\n\n"
+            "COURSE: [course name]\n"
+            "TOPIC: [specific topic]\n\n"
+            "QUESTION:\n"
+            "[question text here]\n\n"
+            "a) [option a]\n"
+            "b) [option b]\n"
+            "c) [option c]\n"
+            "d) [option d]\n\n"
+            "ANSWER: [correct letter]\n\n"
+            "EXPLANATION:\n"
+            "[why the answer is correct, 2-3 sentences]"
+        )
+    except Exception as e:
+        return f"❌ AI Error: {str(e)}"
