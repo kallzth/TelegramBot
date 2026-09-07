@@ -24,6 +24,9 @@ A personal AI-powered Telegram bot designed to boost productivity for software e
 | `/plan` | Format your daily goals into a structured plan |
 | `/save` | Save notes to a personal knowledge base |
 | `/ask` | Query your saved knowledge base with AI |
+| `/readme` | Generate a professional README.md for any project |
+| `/interview` | Get mock interview questions (technical or behavioral) |
+| `/exitexam` | Practice Ethiopian Software Engineering Exit Exam questions|
 
 ---
 
@@ -180,7 +183,8 @@ This project is licensed under the MIT License.
 
 **Kaleab Zelalem**
 - GitHub: [@kallzth](https://github.com/kallzth)
-- Built as a personal productivity tool for software engineering students
+- Bot: @Kalhelp_Bot
+- Built as a personal AI productivity tool for software engineering students in Addis Ababa, Ethiopia
 
 ---
 
