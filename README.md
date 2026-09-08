@@ -139,6 +139,12 @@ This bot is deployed on **Render** with **UptimeRobot** keeping it alive 24/7.
 /explain what is Big O notation
 ```
 
+**Analyze an image:**
+```
+/Send any photo → bot analyzes it automatically
+Send photo with caption "solve question 3" → targeted analysis
+```
+
 **Manage your todo list:**
 ```
 /todo add Study binary trees
