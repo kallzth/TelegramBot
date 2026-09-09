@@ -7,6 +7,7 @@ A personal AI-powered Telegram bot designed to boost productivity for software e
 ![Gemini](https://img.shields.io/badge/Google-Gemini_AI-orange?style=flat&logo=google)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen?style=flat)
+![Hosted](https://img.shields.io/badge/Hosted-Render-purple?style=flat)
 
 ---
 
@@ -30,6 +31,16 @@ A personal AI-powered Telegram bot designed to boost productivity for software e
 
 ---
 
+### ⌨️ Keyboard Buttons
+
+The bot features a persistent keyboard with quick-access buttons:
+```
+📝 Summarize    | 🏗️ Prompt Gen
+💾 Git Commit   | 🔍 Debug Log
+💡 Daily Tip    | 📋 Todo List
+📄 README Gen   | 🎤 Interview
+🎓 Exit Exam    | 🗓️ Plan Your Day
+```
 ## 🏗️ Architecture
 
 ```
