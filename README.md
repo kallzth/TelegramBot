@@ -41,6 +41,13 @@ The bot features a persistent keyboard with quick-access buttons:
 📄 README Gen   | 🎤 Interview
 🎓 Exit Exam    | 🗓️ Plan Your Day
 ```
+### 🎓 Exit Exam Quiz
+Practice questions based on the **official Ethiopian MoE Software Engineering Exit Exam Blueprint**:
+- 100 questions across 4 themes
+- Supports course-specific practice: `/exitexam os`, `/exitexam ml`, `/exitexam database`
+- Native Telegram quiz polls with instant feedback
+- Inline buttons to switch between topics
+
 ## 🏗️ Architecture
 
 ```
