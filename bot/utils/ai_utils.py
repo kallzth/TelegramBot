@@ -309,7 +309,7 @@ async def generate_exit_exam_question(course: str = "random") -> str:
             f"{course_instruction}\n\n"
             "Reply in EXACTLY this format, no extra text:\n\n"
             "COURSE: [course name]\n"
-            "TOPIC: [specific topic]\n\n"
+            "TOPIC: [specific topic, max 3 words]\n\n"
             "QUESTION:\n"
             "[question text here]\n\n"
             "a) [option a, MAX 90 CHARACTERS]\n"
@@ -318,7 +318,7 @@ async def generate_exit_exam_question(course: str = "random") -> str:
             "d) [option d, MAX 90 CHARACTERS]\n\n"
             "ANSWER: [correct letter]\n\n"
             "EXPLANATION:\n"
-            "[why the answer is correct, 2-3 sentences]"
+            "[why the answer is correct, 2-3 sentences, full detail here since no char limit]"
         )
     except Exception as e:
         return f"❌ AI Error: {str(e)}"
