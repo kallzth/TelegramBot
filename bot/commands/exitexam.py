@@ -32,12 +32,21 @@ def parse_question(raw: str):
         d = re.search(r"d\)\s*(.+)", raw).group(1).strip()
         answer = re.search(r"ANSWER:\s*(.+)", raw).group(1).strip().lower()
         explanation = re.search(r"EXPLANATION:\n(.+)", raw, re.DOTALL).group(1).strip()
+
+        options = [
+            a[:97] + "..." if len(a) > 100 else a,
+            b[:97] + "..." if len(b) > 100 else b,
+            c[:97] + "..." if len(c) > 100 else c,
+            d[:97] + "..." if len(d) > 100 else d,
+        ]
+
         return {
-            "course": course, "topic": topic,
+            "course": course,
+            "topic": topic,
             "question": question,
-            "options": [a, b, c, d],
+            "options": options,
             "answer": answer,
-            "explanation": explanation
+            "explanation": explanation,
         }
     except Exception:
         return None
