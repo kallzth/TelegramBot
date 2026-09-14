@@ -162,6 +162,12 @@ This bot is deployed on **Render** with **UptimeRobot** keeping it alive 24/7.
 /Send any photo → bot analyzes it automatically
 Send photo with caption "solve question 3" → targeted analysis
 ```
+**Get a mock interview question:**
+```
+/interview
+/interview technical
+/interview behavioral
+```
 
 **Manage your todo list:**
 ```
