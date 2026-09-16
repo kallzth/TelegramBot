@@ -213,7 +213,7 @@ This project is licensed under the MIT License.
 
 **Kaleab Zelalem**
 - GitHub: [@kallzth](https://github.com/kallzth)
-- Bot: @Kalhelp_Bot
+- Bot: [@Kalhelp_Bot](https://t.me/Kalhelp_Bot)
 - Built as a personal AI productivity tool for software engineering students in Addis Ababa, Ethiopia
 
 ---
