@@ -66,12 +66,15 @@ TelegramBot/
     │   ├── todo.py          # /todo command
     │   ├── plan.py          # /plan command
     │   ├── kb_handler.py    # /save and /ask commands
-    │   └── image_handler.py # Image analysis
+    │   ├── image_handler.py # Image analysis with HTML formatting
+    │   ├── readme.py        # /readme command
+    │   ├── interview.py     # /interview command with inline buttons
+    │   └── exitexam.py      # /exitexam quiz with Telegram polls
     ├── core/
     │   └── config.py        # Configuration & env variables
     └── utils/
-        ├── ai_utils.py      # Gemini AI integration
-        └── knowledge_base.txt # Local knowledge base storage
+        ├── ai_utils.py      # All Gemini AI integrations
+        └── knowledge_base.txt
 ```
 
 ---
