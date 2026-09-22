@@ -28,7 +28,7 @@ from bot.commands.explain import explain_handler
 from bot.commands.todo import todo_handler
 from bot.commands.plan import plan_handler
 from bot.commands.exitexam import exitexam_handler, exitexam_callback_handler
-
+from bot.commands.log_handler import log_handler, logview_handler
 
 
 logging.basicConfig(
@@ -226,6 +226,8 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('exitexam', exitexam_handler))
     application.add_handler(CommandHandler('todo', todo_handler))
     application.add_handler(CommandHandler('readme', readme_handler))
+    application.add_handler(CommandHandler('log', log_handler))
+    application.add_handler(CommandHandler('logview', logview_handler))
     application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
     application.add_handler(CommandHandler('interview', interview_handler))
     application.add_handler(CallbackQueryHandler(interview_callback_handler, pattern="^interview_"))
@@ -266,6 +268,8 @@ if __name__ == '__main__':
         ("save",      "💾 Save notes to knowledge base"),
         ("ask",       "❓ Ask from your knowledge base"),
         ("clear_kb",  "🗑️ Clear your knowledge base"),
+        ("log",       "📊 Log anything to Google Sheets"),
+        ("logview",   "📋 View your recent logs"),
     ])
 
     application.post_init = set_commands
