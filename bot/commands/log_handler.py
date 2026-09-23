@@ -11,7 +11,7 @@ async def log_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "/log study Studied Binary Trees for 2 hours\n"
             "/log bug Fixed null pointer in auth module\n"
             "/log idea Build a CLI tool for git automation\n\n"
-            "Categories: study, bug, idea, task, note"
+            "Categories: study, bug, idea, task, note, exam, project"
         )
         return
 
