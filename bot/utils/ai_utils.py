@@ -322,3 +322,103 @@ async def generate_exit_exam_question(course: str = "random") -> str:
         )
     except Exception as e:
         return f"❌ AI Error: {str(e)}"
+
+PEARSON_CURRICULUM = """
+You are a Pearson Curriculum AI Tutor Assistant specializing in Primary and Lower Secondary education (Years 1-9).
+
+SUBJECTS YOU COVER:
+- Mathematics: Numbers, Operations, Fractions, Decimals, Algebra, Geometry, Measurement, Statistics, Probability
+- Science: Biology, Chemistry, Physics, Earth Science, Scientific Method
+- English: Reading Comprehension, Grammar, Vocabulary, Writing, Spelling, Punctuation
+- Social Studies: History, Geography, Civics
+- ICT: Basic Computing, Digital Literacy
+
+YEAR LEVELS:
+- Years 1-3: Foundation level, simple concepts, basic operations
+- Years 4-6: Intermediate level, multi-step problems, expanding vocabulary
+- Years 7-9: Lower secondary, abstract thinking, complex problems
+
+QUESTION DIFFICULTY PROGRESSION (always follow this for 10 questions):
+Q1-Q2: Foundational — recall and recognition (easiest)
+Q3-Q4: Basic Understanding — simple application
+Q5-Q6: Intermediate — multi-step problems
+Q7-Q8: Advanced Application — real-world scenarios
+Q9-Q10: Challenging — critical thinking, complex analysis (hardest)
+
+PEARSON CURRICULUM ALIGNMENT:
+- Use age-appropriate language for the year level
+- Questions must be curriculum-aligned and educationally sound
+- Include variety: multiple choice, fill-in-the-blank, short answer, problem-solving
+- For Math: include worked examples in explanations
+- For English: use proper literary terminology
+- For Science: reference scientific method where appropriate
+"""
+
+async def generate_tutor_questions(topic: str, year: str = None, image_path: str = None) -> str:
+    try:
+        year_context = f"Year {year}" if year else "appropriate year level"
+        
+        prompt = (
+            f"Topic/Content: {topic}\n"
+            f"Target Year Level: {year_context}\n\n"
+            "TASK: Analyze the topic/content and generate EXACTLY 10 practice questions.\n\n"
+            "Reply in EXACTLY this format:\n\n"
+            "SUBJECT: [subject name]\n"
+            "TOPIC: [specific topic]\n"
+            "YEAR LEVEL: [Year X]\n"
+            "━━━━━━━━━━━━━━━━━━━━\n\n"
+            "Q1 ⭐ [Foundational]\n"
+            "[question]\n\n"
+            "Q2 ⭐ [Foundational]\n"
+            "[question]\n\n"
+            "Q3 ⭐⭐ [Basic Understanding]\n"
+            "[question]\n\n"
+            "Q4 ⭐⭐ [Basic Understanding]\n"
+            "[question]\n\n"
+            "Q5 ⭐⭐⭐ [Intermediate]\n"
+            "[question]\n\n"
+            "Q6 ⭐⭐⭐ [Intermediate]\n"
+            "[question]\n\n"
+            "Q7 ⭐⭐⭐⭐ [Advanced]\n"
+            "[question]\n\n"
+            "Q8 ⭐⭐⭐⭐ [Advanced]\n"
+            "[question]\n\n"
+            "Q9 ⭐⭐⭐⭐⭐ [Challenging]\n"
+            "[question]\n\n"
+            "Q10 ⭐⭐⭐⭐⭐ [Challenging]\n"
+            "[question]\n\n"
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            "ANSWER KEY:\n"
+            "Q1: [answer]\n"
+            "Q2: [answer]\n"
+            "Q3: [answer]\n"
+            "Q4: [answer]\n"
+            "Q5: [answer]\n"
+            "Q6: [answer]\n"
+            "Q7: [answer]\n"
+            "Q8: [answer]\n"
+            "Q9: [answer]\n"
+            "Q10: [answer]"
+        )
+
+        if image_path:
+            # Image-based: use vision
+            def _run():
+                sample_file = client.files.upload(file=image_path)
+                response = client.models.generate_content(
+                    model="gemini-2.5-flash",
+                    config={"system_instruction": PEARSON_CURRICULUM},
+                    contents=[prompt, sample_file]
+                )
+                return response.text
+            return await asyncio.to_thread(_run)
+        else:
+            # Text-based
+            return await asyncio.to_thread(
+                _generate,
+                "gemini-2.5-flash",
+                PEARSON_CURRICULUM,
+                prompt
+            )
+    except Exception as e:
+        return f"❌ Tutor Error: {str(e)}"
