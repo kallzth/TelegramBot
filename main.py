@@ -27,6 +27,7 @@ from bot.commands.tip import tip_handler
 from bot.commands.explain import explain_handler
 from bot.commands.todo import todo_handler
 from bot.commands.plan import plan_handler
+from bot.commands.tutor import tutor_handler, tutor_image_handler
 from bot.commands.exitexam import exitexam_handler, exitexam_callback_handler
 from bot.commands.log_handler import log_handler, logview_handler
 
