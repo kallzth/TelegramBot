@@ -41,6 +41,13 @@ The bot features a persistent keyboard with quick-access buttons:
 📄 README Gen   | 🎤 Interview
 🎓 Exit Exam    | 🗓️ Plan Your Day
 ```
+### 🎓 Exit Exam Quiz
+Practice questions based on the **official Ethiopian MoE Software Engineering Exit Exam Blueprint**:
+- 100 questions across 4 themes
+- Supports course-specific practice: `/exitexam os`, `/exitexam ml`, `/exitexam database`
+- Native Telegram quiz polls with instant feedback
+- Inline buttons to switch between topics
+
 ## 🏗️ Architecture
 
 ```
@@ -59,12 +66,15 @@ TelegramBot/
     │   ├── todo.py          # /todo command
     │   ├── plan.py          # /plan command
     │   ├── kb_handler.py    # /save and /ask commands
-    │   └── image_handler.py # Image analysis
+    │   ├── image_handler.py # Image analysis with HTML formatting
+    │   ├── readme.py        # /readme command
+    │   ├── interview.py     # /interview command with inline buttons
+    │   └── exitexam.py      # /exitexam quiz with Telegram polls
     ├── core/
     │   └── config.py        # Configuration & env variables
     └── utils/
-        ├── ai_utils.py      # Gemini AI integration
-        └── knowledge_base.txt # Local knowledge base storage
+        ├── ai_utils.py      # All Gemini AI integrations
+        └── knowledge_base.txt
 ```
 
 ---
@@ -155,6 +165,12 @@ This bot is deployed on **Render** with **UptimeRobot** keeping it alive 24/7.
 /Send any photo → bot analyzes it automatically
 Send photo with caption "solve question 3" → targeted analysis
 ```
+**Get a mock interview question:**
+```
+/interview
+/interview technical
+/interview behavioral
+```
 
 **Manage your todo list:**
 ```
@@ -200,7 +216,7 @@ This project is licensed under the MIT License.
 
 **Kaleab Zelalem**
 - GitHub: [@kallzth](https://github.com/kallzth)
-- Bot: @Kalhelp_Bot
+- Bot: [@Kalhelp_Bot](https://t.me/Kalhelp_Bot)
 - Built as a personal AI productivity tool for software engineering students in Addis Ababa, Ethiopia
 
 ---
