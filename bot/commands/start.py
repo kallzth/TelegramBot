@@ -11,6 +11,7 @@ async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             ['💡 Daily Tip', '📋 Todo List'],
             ['📄 README Gen', '🎤 Interview'],
             ['🎓 Exit Exam', '🗓️ Plan Your Day'],
+            ['📊 Log', '📚 Tutor'],
 
     ]
     reply_markup = ReplyKeyboardMarkup(keyboard, resize_keyboard=True)
