@@ -34,9 +34,15 @@ def get_credentials():
         scopes=token_data.get("scopes")
     )
 
-    # Auto-refresh if expired
-    if creds.expired and creds.refresh_token:
-        creds.refresh(Request())
+   # ✅ Auto-refresh if expired
+    if not creds.valid:
+        if creds.expired and creds.refresh_token:
+            try:
+                creds.refresh(Request())
+            except Exception as e:
+                raise Exception(
+                    f"Token expired. Please regenerate token.json and update GOOGLE_TOKEN_JSON in Render. Error: {str(e)}"
+                )
 
     return creds
 
