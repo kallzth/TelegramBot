@@ -34,9 +34,6 @@ def get_credentials():
         scopes=token_data.get("scopes")
     )
 
-   # ✅ Auto-refresh if expired
-    if not creds.valid:
-        if creds.expired and creds.refresh_token:
     try:
         creds.refresh(Request())
     except Exception as e:
