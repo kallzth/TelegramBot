@@ -26,7 +26,7 @@ def get_credentials():
             token_data = json.load(f)
 
     creds = Credentials(
-        token=token_data.get("token"),
+        token=None,
         refresh_token=token_data.get("refresh_token"),
         token_uri=token_data.get("token_uri"),
         client_id=token_data.get("client_id"),
@@ -37,12 +37,10 @@ def get_credentials():
    # ✅ Auto-refresh if expired
     if not creds.valid:
         if creds.expired and creds.refresh_token:
-            try:
-                creds.refresh(Request())
-            except Exception as e:
-                raise Exception(
-                    f"Token expired. Please regenerate token.json and update GOOGLE_TOKEN_JSON in Render. Error: {str(e)}"
-                )
+    try:
+        creds.refresh(Request())
+    except Exception as e:
+        raise Exception(f"❌ Google token refresh failed: {str(e)}\nPlease run generate_token.py and update GOOGLE_TOKEN_JSON in Render.")
 
     return creds
 
