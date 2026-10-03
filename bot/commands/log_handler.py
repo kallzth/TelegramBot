@@ -9,77 +9,66 @@ async def log_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "📊 Usage: /log [category] [content]\n\n"
             "Examples:\n"
             "/log study Studied Binary Trees for 2 hours\n"
-            "/log bug Fixed null pointer in auth module\n"
-            "/log idea Build a CLI tool for git automation\n\n"
-            "Categories: study, bug, idea, task, note, exam, project"
+            "/log bug Fixed null pointer in auth module\n\n"
+            "💡 To log MULTIPLE items at once, separate with | :\n"
+            "/log task Study OS | task Fix login bug | note Buy groceries"
         )
         return
 
-    args = context.args
-    # First word is category if it's a known one
+    args_text = " ".join(context.args)
     known_categories = ["study", "bug", "idea", "task", "note", "exam", "project"]
-    if args[0].lower() in known_categories:
-        category = args[0].capitalize()
-        content = " ".join(args[1:])
+    user = update.message.from_user.first_name
+
+    # ✅ Check for multiple entries separated by |
+    if "|" in args_text:
+        entries = [e.strip() for e in args_text.split("|") if e.strip()]
+        status = await update.message.reply_text(f"📊 Logging {len(entries)} entries...")
+        
+        success = 0
+        results = ""
+        for entry in entries:
+            parts = entry.split(" ", 1)
+            if len(parts) >= 2 and parts[0].lower() in known_categories:
+                category = parts[0].capitalize()
+                content = parts[1]
+            else:
+                category = "Note"
+                content = entry
+            
+            try:
+                await asyncio.to_thread(log_entry, category, content, user)
+                results += f"✅ {category}: {content}\n"
+                success += 1
+            except Exception as e:
+                results += f"❌ Failed: {content}\n"
+
+        await status.edit_text(
+            f"📊 Logged {success}/{len(entries)} entries:\n\n"
+            f"{results}\n"
+            f"View: /logview"
+        )
+        return
+
+    # Single entry
+    parts = args_text.split(" ", 1)
+    if parts[0].lower() in known_categories:
+        category = parts[0].capitalize()
+        content = parts[1] if len(parts) > 1 else ""
     else:
         category = "Note"
-        content = " ".join(args)
+        content = args_text
 
     if not content:
-        await update.message.reply_text("❌ Please add some content after the category!")
+        await update.message.reply_text("❌ Please add content after the category!")
         return
 
     status = await update.message.reply_text("📊 Logging to Google Sheets...")
 
     try:
-        user = update.message.from_user.first_name
         await asyncio.to_thread(log_entry, category, content, user)
         await status.edit_text(
-            f"✅ Logged successfully!\n\n"
-            f"📁 Category: {category}\n"
-            f"📝 Content: {content}\n\n"
-            f"View your logs: /logview"
+            f"✅ Logged!\n"
+            f"📁 {category}: {content}"
         )
     except Exception as e:
-        await status.edit_text(f"❌ Error logging: {str(e)}")
-
-
-async def logview_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    status = await update.message.reply_text("📊 Fetching your recent logs...")
-
-    try:
-        logs = await asyncio.to_thread(get_recent_logs, 5)
-
-        if not logs:
-            await status.edit_text(
-                "📊 No logs yet!\n"
-                "Use /log to start tracking your work."
-            )
-            return
-
-        response = "📊 YOUR RECENT LOGS\n"
-        response += "━━━━━━━━━━━━━━━━━━━━\n\n"
-
-        category_emojis = {
-            "Study": "📚",
-            "Bug": "🐛",
-            "Idea": "💡",
-            "Task": "✅",
-            "Note": "📝",
-            "Exam": "🎓",
-            "Project": "🏗️",
-        }
-
-        for row in reversed(logs):
-            if len(row) >= 4:
-                timestamp, user, category, content = row[0], row[1], row[2], row[3]
-                emoji = category_emojis.get(category, "📌")
-                response += f"{emoji} {category}\n"
-                response += f"📅 {timestamp}\n"
-                response += f"💬 {content}\n\n"
-
-        response += "━━━━━━━━━━━━━━━━━━━━"
-        await status.edit_text(response)
-
-    except Exception as e:
-        await status.edit_text(f"❌ Error fetching logs: {str(e)}")
+        await status.edit_text(f"❌ Error: {str(e)}")
