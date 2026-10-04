@@ -72,3 +72,38 @@ async def log_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         )
     except Exception as e:
         await status.edit_text(f"❌ Error: {str(e)}")
+
+async def logview_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    status = await update.message.reply_text("📊 Fetching your recent logs...")
+
+    try:
+        logs = await asyncio.to_thread(get_recent_logs, 5)
+
+        if not logs:
+            await status.edit_text(
+                "📊 No logs yet!\n"
+                "Use /log to start tracking your work."
+            )
+            return
+
+        response = "📊 YOUR RECENT LOGS\n"
+        response += "━━━━━━━━━━━━━━━━━━━━\n\n"
+
+        category_emojis = {
+            "Study": "📚", "Bug": "🐛", "Idea": "💡",
+            "Task": "✅", "Note": "📝", "Exam": "🎓",
+            "Project": "🏗️",
+        }
+
+        for row in reversed(logs):
+            if len(row) >= 4:
+                timestamp, user, category, content = row[0], row[1], row[2], row[3]
+                emoji = category_emojis.get(category, "📌")
+                response += f"{emoji} {category} — {timestamp}\n"
+                response += f"💬 {content}\n\n"
+
+        response += "━━━━━━━━━━━━━━━━━━━━"
+        await status.edit_text(response)
+
+    except Exception as e:
+        await status.edit_text(f"❌ Error: {str(e)}")
