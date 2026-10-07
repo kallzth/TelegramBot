@@ -10,7 +10,18 @@ async def summarize_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     elif context.args:
         text_to_summarize = " ".join(context.args)
     else:
-        await update.message.reply_text("❌ Please reply to a message or provide text after /summarize")
+        await update.message.reply_text("📝 SUMMARIZER\n"
+    "━━━━━━━━━━━━━━━━━━━━\n"
+    "Condenses any text into clear, structured bullet points.\n\n"
+    "USAGE\n"
+    "/summarize [paste your text here]\n\n"
+    "EXAMPLES\n"
+    "› /summarize [paste an article]\n"
+    "› /summarize [paste lecture notes]\n"
+    "› /summarize [paste a research paper]\n\n"
+    "OUTPUT\n"
+    "Bullet-point summary with key insights highlighted."
+    )
         return
 
     status_message = await update.message.reply_text("⏳ Processing summary...")
