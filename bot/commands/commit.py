@@ -5,7 +5,19 @@ from bot.utils.ai_utils import get_ai_response
 async def commit(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Generates a Git commit message from a diff."""
     if not context.args:
-        await update.message.reply_text("Please provide a git diff after the /commit command.")
+        await update.message.reply_text(
+    "💾 GIT COMMIT GENERATOR\n"
+    "━━━━━━━━━━━━━━━━━━━━\n"
+    "Converts plain descriptions into professional\n"
+    "Conventional Commit messages with a copy button.\n\n"
+    "USAGE\n"
+    "/git [what you changed]\n\n"
+    "EXAMPLES\n"
+    "› /git added jwt auth to the login endpoint\n"
+    "› /git fixed null pointer in user profile page\n"
+    "› /git refactored database connection pooling\n\n"
+    "COMMIT TYPES\n"
+    "feat · fix · docs · style · refactor · test · chore")
         return
 
     diff = " ".join(context.args)
