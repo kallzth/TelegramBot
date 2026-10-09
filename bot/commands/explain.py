@@ -10,11 +10,19 @@ async def explain_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         concept = " ".join(context.args)
     else:
         await update.message.reply_text(
-            "💡 Usage: /explain [concept or code]\n\n"
-            "Examples:\n"
-            "• /explain what is a binary tree\n"
-            "• /explain async await in Python\n"
-            "• Reply to any code message with /explain"
+            "🧠 CONCEPT EXPLAINER\n"
+    "━━━━━━━━━━━━━━━━━━━━\n"
+    "Explains any code, concept, or technology\n"
+    "in simple terms with a practical example.\n\n"
+    "USAGE\n"
+    "/explain [concept or code snippet]\n\n"
+    "EXAMPLES\n"
+    "› /explain what is Big O notation\n"
+    "› /explain how does JWT authentication work\n"
+    "› /explain the difference between TCP and UDP\n"
+    "› /explain [paste a confusing code block]\n\n"
+    "OUTPUT\n"
+    "Clear 3-4 sentence explanation + practical example."
         )
         return
 
