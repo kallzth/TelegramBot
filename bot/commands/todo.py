@@ -36,10 +36,20 @@ async def todo_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         if not todos:
             await update.message.reply_text(
                 f"📋 Hey {user_name}, your todo list is empty!\n\n"
-                "Add tasks with: /todo add Buy groceries\n"
-                "Mark done with: /todo done 1\n"
-                "Remove with: /todo remove 1\n"
-                "Clear all with: /todo clear"
+                "📋 TASK MANAGER\n"
+    "━━━━━━━━━━━━━━━━━━━━\n"
+    "Personal task list stored in your bot session.\n\n"
+    "COMMANDS\n"
+    "› /todo                  — view all tasks\n"
+    "› /todo add [task]       — add a new task\n"
+    "› /todo done [number]    — mark task complete\n"
+    "› /todo delete [number]  — remove a task\n"
+    "› /todo clear            — clear all tasks\n\n"
+    "EXAMPLES\n"
+    "› /todo add Study binary trees\n"
+    "› /todo add Fix the login bug\n"
+    "› /todo done 1\n"
+    "› /todo delete 2"
             )
             return
 
