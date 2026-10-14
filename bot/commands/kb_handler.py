@@ -10,20 +10,20 @@ async def save_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
         text_to_save = " ".join(context.args)
     else:
         await update.message.reply_text(
-    ""💾 KNOWLEDGE BASE — SAVE\n"
+   "KNOWLEDGE BASE — SAVE\n"
     "━━━━━━━━━━━━━━━━━━━━\n"
     "Saves notes, snippets, or references to\n"
     "your personal knowledge base for later retrieval.\n\n"
     "USAGE\n"
     "/save [your note or content]\n\n"
     "EXAMPLES\n"
-    "› /save Binary search runs in O(log n) time\n"
-    "› /save JWT tokens expire after 24 hours by default\n"
-    "› /save [paste any code snippet or reference]\n\n"
+    "> /save Binary search runs in O(log n) time\n"
+    "> /save JWT tokens expire after 24 hours by default\n"
+    "> /save [paste any code snippet or reference]\n\n"
     "RELATED\n"
-    "› /ask  — query your saved notes with AI\n"
-    "› /clear_kb — clear all saved notes""
-    )
+    "> /ask  -- query your saved notes with AI\n"
+    "> /clear_kb -- clear all saved notes"
+)
         return
 
     save_to_kb(text_to_save)
