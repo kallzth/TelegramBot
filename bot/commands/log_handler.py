@@ -6,12 +6,22 @@ from bot.utils.sheets_utils import log_entry, get_recent_logs
 async def log_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
         await update.message.reply_text(
-            "📊 Usage: /log [category] [content]\n\n"
-            "Examples:\n"
-            "/log study Studied Binary Trees for 2 hours\n"
-            "/log bug Fixed null pointer in auth module\n\n"
-            "💡 To log MULTIPLE items at once, separate with | :\n"
-            "/log task Study OS | task Fix login bug | note Buy groceries"
+           "📊 ACTIVITY LOGGER\n"
+             "━━━━━━━━━━━━━━━━━━━━\n"
+             "Logs your tasks, notes, and activities\n"
+             "directly to Google Sheets with timestamps.\n\n"
+             "USAGE\n"
+             "/log [category] [content]\n\n"
+             "CATEGORIES\n"
+             "study · bug · idea · task · note · exam · project\n\n"
+             "EXAMPLES\n"
+             "› /log study Studied OS scheduling for 2 hours\n"
+             "› /log bug Fixed null pointer in auth module\n"
+             "› /log idea Build a CLI tool for git automation\n\n"
+             "MULTIPLE ENTRIES  (use | separator)\n"
+             "› /log task Study OS | bug Fix login | note Buy groceries\n\n"
+             "RELATED\n"
+             "› /logview — view your 5 most recent entries"
         )
         return
 
