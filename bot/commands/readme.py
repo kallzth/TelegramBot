@@ -6,21 +6,21 @@ async def readme_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args and (not update.message.text or update.message.text.strip() == "📄 README Gen"):
         await update.message.reply_text(
             "📄 README GENERATOR\n"
-    "━━━━━━━━━━━━━━━━━━━━\n"
-    "Generates a professional README.md file\n"
-    "based on your project description.\n\n"
-    "USAGE\n"
-    "/readme [describe your project]\n\n"
-    "EXAMPLES\n"
-    "› /readme A REST API built with FastAPI and PostgreSQL\n"
-    "  for managing student records with JWT auth\n\n"
-    "› /readme A React dashboard that visualizes\n"
-    "  real-time crypto prices using WebSockets\n\n"
-    "› /readme A Telegram bot built with Python and Gemini AI that helps software engineers with daily tasks\n\n"
-    "OUTPUT SECTIONS\n"
-    "Features · Tech Stack · Installation\n"
-    "Usage · Contributing · License"
-    )
+            "━━━━━━━━━━━━━━━━━━━━\n"
+            "Generates a professional README.md file\n"
+            "based on your project description.\n\n"
+            "USAGE\n"
+            "/readme [describe your project]\n\n"
+            "EXAMPLES\n"
+            "› /readme A REST API built with FastAPI and PostgreSQL\n"
+            "  for managing student records with JWT auth\n\n"
+            "› /readme A React dashboard that visualizes\n"
+            "  real-time crypto prices using WebSockets\n\n"
+            "› /readme A Telegram bot built with Python and Gemini AI that helps software engineers with daily tasks\n\n"
+            "OUTPUT SECTIONS\n"
+            "Features · Tech Stack · Installation\n"
+            "Usage · Contributing · License"
+       )
         return
 
     description = " ".join(context.args) if context.args else update.message.text
