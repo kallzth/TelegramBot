@@ -5,8 +5,18 @@ from bot.utils.ai_utils import suggest_commit, analyze_error
 async def git_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not context.args:
         await update.message.reply_text(
-            "💾 Usage: /git [what you did]\n\n"
-            "Example: /git I added login logic and fixed the navbar"
+           "💾 GIT COMMIT GENERATOR\n"
+           "━━━━━━━━━━━━━━━━━━━━\n"
+           "Converts plain descriptions into professional\n"
+           "Conventional Commit messages with a copy button.\n\n"
+           "USAGE\n"
+           "/git [what you changed]\n\n"
+           "EXAMPLES\n"
+           "› /git added jwt auth to the login endpoint\n"
+           "› /git fixed null pointer in user profile page\n"
+           "› /git refactored database connection pooling\n\n"
+           "COMMIT TYPES\n"
+           "feat · fix · docs · style · refactor · test · chore"
         )
         return
 
