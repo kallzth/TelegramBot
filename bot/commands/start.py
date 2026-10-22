@@ -1,9 +1,11 @@
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import ContextTypes
+from bot.utils.user_tracker import save_user
 
 async def start_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_name = update.message.from_user.first_name
-
+    save_user(user.id, user.first_name, user.username)
+    
     keyboard = [
         
             ['📝 Summarize', '🏗️ Prompt Gen'],
