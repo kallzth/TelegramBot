@@ -30,7 +30,7 @@ from bot.commands.plan import plan_handler
 from bot.commands.tutor import tutor_handler, tutor_image_handler
 from bot.commands.exitexam import exitexam_handler, exitexam_callback_handler
 from bot.commands.log_handler import log_handler, logview_handler
-
+from bot.commands.announce import announce_handler, users_handler
 
 logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -207,6 +207,8 @@ if __name__ == '__main__':
     application.add_handler(CommandHandler('logview', logview_handler))
     application.add_handler(MessageHandler(filters.PHOTO, image_message_handler))
     application.add_handler(CommandHandler('interview', interview_handler))
+    application.add_handler(CommandHandler('announce', announce_handler))
+    application.add_handler(CommandHandler('users', users_handler))
     application.add_handler(CallbackQueryHandler(interview_callback_handler, pattern="^interview_"))
     application.add_handler(MessageHandler(filters.Text("📝 Summarize"), summarize_handler))
     application.add_handler(MessageHandler(filters.Text("🏗️ Prompt Gen"), prompt_handler))
@@ -249,6 +251,9 @@ if __name__ == '__main__':
         ("clear_kb",  "🗑️ Clear your knowledge base"),
         ("log",       "📊 Log anything to Google Sheets"),
         ("logview",   "📋 View your recent logs"),
+        # set_my_commands for admin-only commands
+        ("announce", "📢 Send announcement to all users (admin only)"),
+        ("users",    "👥 View user stats (admin only)"),
     ])
 
     application.post_init = set_commands
