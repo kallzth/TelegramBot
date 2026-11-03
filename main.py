@@ -178,11 +178,20 @@ async def fallback_handler(update: Update, context):
 from telegram import Update
 
 if __name__ == '__main__':
-    Thread(target=run).start()
+    Thread(target=run, daemon=True).start()
     print("🌍 Keep-alive server started on port 8080...")
 
-    application = ApplicationBuilder().token(TELEGRAM_BOT_TOKEN).build()
-
+    application = ( 
+        ApplicationBuilder()
+        .token(TELEGRAM_BOT_TOKEN)
+        .connect_timeout(30)
+        .read_timeout(30)
+        .write_timeout(30)
+        .pool_timeout(30)
+        .get_updates_connect_timeout(30)
+        .get_updates_read_timeout(30)
+        .build()
+ )
     job_queue = application.job_queue
 
    
@@ -260,4 +269,4 @@ if __name__ == '__main__':
 
   
     print("🤖 Bot is running with all fixes applied!")
-    application.run_polling()
+    application.run_polling(bootstrap_retries=-1)
